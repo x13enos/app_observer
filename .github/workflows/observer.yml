@@ -1,0 +1,36 @@
+name: App Observer
+
+on:
+  schedule:
+    - cron: "*/15 * * * *" # every 15 minutes (UTC)
+  workflow_dispatch:
+
+jobs:
+  observer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: Restore chat IDs cache
+        uses: actions/cache@v4
+        with:
+          path: chat_ids.txt
+          key: chat-ids-${{ github.run_id }}
+          restore-keys: chat-ids-
+
+      - name: Fetch chat IDs
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+        run: bundle exec ruby chat_fetcher.rb
+
+      - name: Run observer
+        env:
+          LIST_OF_APPS: ${{ secrets.LIST_OF_APPS }}
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+        run: bundle exec ruby observer.rb
