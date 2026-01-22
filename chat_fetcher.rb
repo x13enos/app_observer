@@ -11,7 +11,7 @@ def env!(key)
   ENV[key] || abort("Missing ENV var #{key}. Set it in your shell or add it to a .env file.")
 end
 
-HTTP = HTTPX.plugin(:follow_redirects).with(ip_families: [Socket::AF_INET], resolver_class: :system)
+HTTP = HTTPX.plugin(:follow_redirects)
 
 TG_TOKEN = env!("TG_TOKEN")
 CHAT_IDS_FILE = "chat_ids.txt".freeze

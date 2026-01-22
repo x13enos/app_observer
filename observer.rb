@@ -10,7 +10,7 @@ def env!(key)
   ENV[key] || abort("Missing ENV var #{key}. Set it in your shell or add it to a .env file.")
 end
 
-HTTP = HTTPX.plugin(:follow_redirects).with(ip_families: [Socket::AF_INET], resolver_class: :system)
+HTTP = HTTPX.plugin(:follow_redirects)
 
 LIST_OF_APPS = env!("LIST_OF_APPS")
 TG_TOKEN = env!("TG_TOKEN")

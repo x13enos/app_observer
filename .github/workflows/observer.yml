@@ -2,7 +2,7 @@ name: App Observer
 
 on:
   schedule:
-    - cron: "*/15 * * * *" # every 15 minutes (UTC)
+    - cron: "* */1 * * *" # every hour (UTC)
   workflow_dispatch:
 
 jobs:
